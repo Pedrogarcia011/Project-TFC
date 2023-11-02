@@ -8,7 +8,6 @@ import db from '.';
 
 class SequelizeTeams extends Model<InferAttributes<SequelizeTeams>> {
   declare id: CreationOptional<number>;
-
   declare teamName: string;
 }
 
