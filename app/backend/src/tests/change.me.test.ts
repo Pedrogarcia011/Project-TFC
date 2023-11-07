@@ -39,7 +39,8 @@ describe('Seu teste', () => {
   //   expect(...)
   // });
 
-  it('Seu sub-teste', () => {
-    expect(false).to.be.eq(true);
+  it('Seu sub-teste', async () => {
+    const res = await chai.request(app).get('/');
+    expect(res.body).to.deep.equal({ ok: true });
   });
 });
