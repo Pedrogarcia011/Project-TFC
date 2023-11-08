@@ -1,4 +1,5 @@
 import * as jwt from 'jsonwebtoken';
+import * as bcrypt from 'bcryptjs';
 import { ServiceResponse } from '../Interfaces/ServiceResponse';
 import UserModel from '../models/UsersModel';
 import { IToken } from '../Interfaces/IToken';
@@ -9,13 +10,9 @@ export default class UserService {
   ) { }
 
   public async findByEmail(email: string, password: string): Promise<ServiceResponse<IToken>> {
-    if (!email || !password) {
-      return { status: 'INVALID_DATA', data: { message: 'All fields must be filled' } };
-    }
-
     const user = await this.userModel.findByEmail(email);
 
-    if (!user) {
+    if (!user || !await bcrypt.compare(password, user.password)) {
       return { status: 'UNAUTHORIZED', data: { message: 'Invalid email or password' } };
     }
 
