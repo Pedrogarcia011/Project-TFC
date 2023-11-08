@@ -37,6 +37,7 @@ SequelizeUsers.init({
   email: {
     type: DataTypes.STRING,
     allowNull: false,
+    unique: true,
   },
 
   password: {
