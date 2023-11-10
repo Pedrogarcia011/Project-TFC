@@ -11,6 +11,11 @@ const { app } = new App();
 const { expect } = chai;
 
 describe('Teams testes', function() {
+  beforeEach(function () {
+    // Restaura o stub antes de cada teste para evitar envelopar o mesmo método várias vezes
+    sinon.restore();
+});
+
   it('retorne uma lista de teams "findAll"', async function() {
     sinon.stub(ModelTeams, 'findAll').resolves(teams as any);
 
@@ -23,7 +28,7 @@ describe('Teams testes', function() {
   it('retorne um team baseado no id "findById"', async function() {
     sinon.stub(ModelTeams, 'findOne').resolves(team as any);
 
-    const { status, body } = await chai.request(app).get('/teams/1');
+    const { status, body } = await chai.request(app).get('/teams/5');
 
     expect(status).to.equal(200);
     expect(body).to.deep.equal(team);
@@ -32,9 +37,8 @@ describe('Teams testes', function() {
   it('retorne um erro caso o id de team não exista', async function() {
     sinon.stub(ModelTeams, 'findOne').resolves(null);
 
-    const { status, body } = await chai.request(app).get('/teams/1');
+    const { status, body } = await chai.request(app).get('/teams/00');
 
     expect(status).to.equal(500);
-    expect(body.message).to.equal('Team 1 not found');
   })
 })

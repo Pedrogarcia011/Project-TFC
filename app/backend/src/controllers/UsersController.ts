@@ -14,4 +14,11 @@ export default class UserController {
 
     res.status(mapStatusHTTP(serviceResponse.status)).json(serviceResponse.data);
   }
+
+  public async findByGetRole(req: Request, res: Response) {
+    const token = req.headers.authorization as string;
+    const serviceResponse = await this.userService.findByGetRole(token);
+
+    res.status(200).json(serviceResponse.data);
+  }
 }
