@@ -12,4 +12,23 @@ export default class MatchController {
 
     res.status(mapStatusHTTP(serviceResponse.status)).json(serviceResponse.data);
   }
+
+  public async findByFilterMatches(req: Request, res: Response) {
+    const { inProgress } = req.query;
+
+    const filter: { inProgress?: boolean } = {};
+
+    if (inProgress === undefined) {
+      res.status(400).json({ error: 'Parâmetro inProgress não fornecido.' });
+      return;
+    }
+
+    if (inProgress !== undefined) {
+      filter.inProgress = inProgress === 'true';
+    }
+
+    const { status, data } = await this.matchService.findByFilterMatches(filter);
+
+    res.status(mapStatusHTTP(status)).json(data);
+  }
 }
