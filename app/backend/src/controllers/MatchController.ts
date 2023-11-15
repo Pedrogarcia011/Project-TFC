@@ -31,4 +31,15 @@ export default class MatchController {
 
     res.status(mapStatusHTTP(status)).json(data);
   }
+
+  public async matchFinish(req: Request, res: Response) {
+    const { id } = req.params;
+
+    const { status, data } = await this.matchService.matchFinish(Number(id));
+    if (status !== 'SUCCESSFUL') {
+      return res.status(mapStatusHTTP(status)).json(data);
+    }
+
+    res.status(200).json({ message: 'Finished' });
+  }
 }

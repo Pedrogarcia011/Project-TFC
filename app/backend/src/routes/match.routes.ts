@@ -1,5 +1,6 @@
 import { Request, Response, Router } from 'express';
 import MatchController from '../controllers/MatchController';
+import TokenValidation from '../middlewares/token.middleware';
 
 const matchController = new MatchController();
 
@@ -15,5 +16,11 @@ router.get('/', (req: Request, res: Response) => {
     matchController.findAllMatch(req, res);
   }
 });
+
+router.patch(
+  '/:id/finish',
+  TokenValidation.tokenValidate,
+  (req: Request, res: Response) => matchController.matchFinish(req, res),
+);
 
 export default router;
