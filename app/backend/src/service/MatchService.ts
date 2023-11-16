@@ -1,5 +1,5 @@
 import { IMatch } from '../Interfaces/matches/IMatch';
-import { ServiceResponse } from '../Interfaces/ServiceResponse';
+import { ServiceResponse, UpdateMatchResponse } from '../Interfaces/ServiceResponse';
 import MatchModel from '../models/MatchModel';
 
 export default class MatchService {
@@ -27,5 +27,14 @@ export default class MatchService {
     if (finish === null) return { status: 'NOT_FOUND', data: { message: 'not found' } };
 
     return { status: 'SUCCESSFUL', data: finish };
+  }
+
+  async updateMatch(idMatch: number, mat: IMatch): Promise<UpdateMatchResponse> {
+    const updateMatch = await this.matchModel.matchUpdate(idMatch, mat);
+
+    if (!updateMatch) {
+      return { status: 'NOT_FOUND', data: { message: 'Match not found' } };
+    }
+    return { status: 'SUCCESSFUL', data: { message: 'Match updated', match: updateMatch } };
   }
 }

@@ -40,4 +40,24 @@ export default class MatchModel implements IMatchModel {
     const result = await this.findById(id);
     return result;
   }
+
+  async matchUpdate(id: number, match: IMatch): Promise<IMatch> {
+    const updateMatch = await this.model.findOne({
+      where: { id },
+      include: [
+        { model: ModelTeam, as: 'homeTeam' },
+        { model: ModelTeam, as: 'awayTeam' },
+      ],
+    });
+
+    if (!updateMatch) {
+      throw new Error(`${id} not found`);
+    }
+
+    const { homeTeamGoals, awayTeamGoals } = match;
+
+    await updateMatch.update({ homeTeamGoals, awayTeamGoals });
+
+    return updateMatch;
+  }
 }
