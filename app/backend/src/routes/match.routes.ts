@@ -30,4 +30,10 @@ router.patch(
   (req: Request, res: Response) => matchController.updateMatch(req, res),
 );
 
+router.post(
+  '/',
+  TokenValidation.tokenValidate,
+  (req: Request, res: Response) => matchController.matchCreated(req, res),
+);
+
 export default router;

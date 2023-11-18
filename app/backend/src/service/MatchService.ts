@@ -37,4 +37,10 @@ export default class MatchService {
     }
     return { status: 'SUCCESSFUL', data: { message: 'Match updated', match: updateMatch } };
   }
+
+  public async matchCreated(match: IMatch): Promise<ServiceResponse<IMatch>> {
+    const newMatch = await this.matchModel.matchCreated(match);
+
+    return { status: 'SUCCESSFUL', data: newMatch };
+  }
 }
