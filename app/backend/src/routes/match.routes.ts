@@ -1,6 +1,7 @@
 import { Request, Response, Router } from 'express';
 import MatchController from '../controllers/MatchController';
 import TokenValidation from '../middlewares/token.middleware';
+import InsertValidation from '../middlewares/match.middleware';
 
 const matchController = new MatchController();
 
@@ -33,6 +34,7 @@ router.patch(
 router.post(
   '/',
   TokenValidation.tokenValidate,
+  InsertValidation.validateInsert,
   (req: Request, res: Response) => matchController.matchCreated(req, res),
 );
 
