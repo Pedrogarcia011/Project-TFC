@@ -70,4 +70,17 @@ export default class MatchModel implements IMatchModel {
     const { awayTeamGoals, id, awayTeamId, homeTeamGoals, homeTeamId, inProgress }:IMatch = dbData;
     return { id, homeTeamId, homeTeamGoals, awayTeamId, awayTeamGoals, inProgress };
   }
+
+  async getByProgress(inProgress: string): Promise<IMatch[]> {
+    const matches = await this.model.findAll({
+      include: [
+        { model: ModelTeam, as: 'homeTeam' },
+        { model: ModelTeam, as: 'awayTeam' },
+      ],
+      where: {
+        inProgress: inProgress === 'true',
+      },
+    });
+    return matches;
+  }
 }
